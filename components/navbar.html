@@ -1,0 +1,76 @@
+<!-- all CSS selectors are prefixed with #navbar to reduce collisions with other styles -->
+<style>
+    body {
+        font-family: "Inter", sans-serif;
+    }
+
+    #navbar {
+        display: grid;
+        grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+        align-items: center;
+        gap: 10px;
+        padding: 10px;
+    }
+
+    #navbar #exercise-group, #navbar #nutrition-group {
+        min-width: 0;
+        text-align: center;
+    }
+
+    #navbar .pages {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        min-height: 45px;
+    }
+
+    #navbar .pages a {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        color: #333;
+        text-decoration: none;
+        font-size: 1.25rem;
+    }
+
+    #navbar #quick-add-btn {
+        box-sizing: border-box;
+        width: 65px;
+        height: 65px;
+        padding: 0;
+        border: none;
+        border-radius: 10px;
+        background: #333;
+        color: white;
+        font-size: 2rem;
+    }
+</style>
+
+<nav id="navbar">
+    <div id="exercise-group">
+        <div class="pages">
+            <a href="/vault/index.html">Vault</a>
+            <a href="/log/index.html">Log</a>
+        </div>
+    </div>
+
+    <button id="quick-add-btn" type="button">
+        &plus;
+    </button>
+
+    <div id="nutrition-group">
+        <div class="pages">
+            <a href="/plate/index.html">Plate</a>
+            <a href="/kitchen/index.html">Kitchen</a>
+        </div>
+    </div>
+</nav>
+
+<script>
+    // wrap each component's script in its own scope to avoid variable collisions when loading it
+    (() => {
+        const btn = document.getElementById("quick-add-btn");
+        btn.addEventListener("click", () => {
+        
+        });
+    })();
+</script>

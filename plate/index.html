@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EZ Fit</title>
+
+    <link rel="stylesheet" href="index.css"/>
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <div id="top">
+        <div class="stack left">
+            <span id="day-number"></span>
+            <span id="date"></span>
+        </div>
+
+        <h1 id="program-name">EZ Fit</h1>
+
+        <div class="stack right">
+            <span id="swap-btn">&plus;</span>
+            <span id="swap-btn-label">Consumed</span>
+        </div>
+    </div>
+
+    <div id="info">
+        <div class="info-left">
+            <div class="circle">Cal</div>
+        </div>
+
+        <div class="info-right">
+            <div class="progress-row">
+                <div class="progress-bar">
+                    <div class="progress-color fat"></div>
+                    <span>Fat</span>
+                </div>
+                <span>g</span>
+            </div>
+
+            <div class="progress-row">
+                <div class="progress-bar">
+                    <div class="progress-color carbs"></div>
+                    <span>Carbs</span>
+                </div>
+                <span>g</span>
+            </div>
+
+            <div class="progress-row">
+                <div class="progress-bar">
+                    <div class="progress-color protein"></div>
+                    <span>Protein</span>
+                </div>
+                <span>g</span>
+            </div>
+        </div>
+    </div>
+
+    <div id="menu-controls">
+        <input id="search" type="search" placeholder="Search..."/>
+
+        <div id="organization-row">
+            <div id="filter">
+                <button class="filter-tab" type="button">Fruit</button>
+                <button class="filter-tab" type="button">Meat</button>
+                <button class="filter-tab" type="button">Vegetable</button>
+                <button class="filter-tab" type="button">Gluten-Free</button>
+            </div>
+
+            <select id="sort">
+                <option value="default" selected>Sort By</option>
+                <option value="calories">Calories</option>
+                <option value="fat">Fat</option>
+                <option value="carbs">Carbs</option>
+                <option value="protein">Protein</option>
+                <option value="name">A-Z</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="menu"></div>
+
+    <div id="for-navbar"></div>
+
+    <script>
+        loadComponent("/components/navbar.html", document.getElementById("for-navbar")).catch(console.error);
+
+        // load component's HTML and CSS
+        // container is the element that the component is inserted in
+        async function loadComponent(path, container) {
+            const response = await fetch(path);
+
+            if (!response.ok) {
+                throw new Error(`Could not load component: ${path}`);
+            }
+
+            const html = await response.text();
+            container.innerHTML = html;
+            loadComponentScripts(container);
+
+            console.log(`Component loaded successfully: ${path}`);
+        }
+
+        // load component's JavaScript
+        // container is passed from loadComponent()
+        function loadComponentScripts(container) {
+            // inactiveScript is the script element from the loaded component
+            container.querySelectorAll("script").forEach(function swapScripts(inactiveScript) {
+                // create a new script element and copy the code from inactiveScript
+                const newScript = document.createElement("script");
+                newScript.textContent = inactiveScript.textContent;
+                // replacing executes the JavaScript
+                inactiveScript.replaceWith(newScript);
+            });
+        }
+    </script>
+</body>
+</html>

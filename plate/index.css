@@ -1,0 +1,187 @@
+body {
+    font-family: "Inter", sans-serif;
+    padding-bottom: 90px; /* reserve space for the navbar */
+}
+
+/* start of top section */
+
+#top {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+    align-items: center;
+    gap: 5px;
+    padding: 10px 0;
+}
+
+.stack {
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    min-width: 0;
+    font-size: 0.75rem;
+    overflow-wrap: anywhere;
+}
+
+.left {
+    text-align: left;
+}
+
+.right {
+    text-align: right;
+}
+
+#program-name {
+    text-align: center;
+    margin: 0;
+    font-size: clamp(1.25rem, 5vw, 1.75rem);
+    line-height: 1.15;
+}
+
+/* end of top section */
+
+/* start of info section */
+
+#info {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(0, 2fr);
+    align-items: center;
+}
+
+.info-left {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.circle {
+    box-sizing: border-box;
+    width: 100%;
+    aspect-ratio: 1;
+    border: 1px solid #333;
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+}
+
+.info-right {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 90%;
+    min-width: 0;
+    padding: 0;
+    justify-self: center;
+}
+
+.progress-row {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) auto;
+    align-items: center;
+    gap: 10px;
+}
+
+.progress-bar {
+    position: relative;
+    height: 20px;
+    background-color: #EEE;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.progress-color {
+    position: absolute;
+    height: 100%;
+    background: #8BC5FF;
+}
+
+.progress-bar > span {
+    position: relative;
+    display: flex;
+    align-items: center;
+    height: 100%;
+    padding-left: 10px;
+}
+
+.fat {
+    width: 40%;
+}
+
+.carbs {
+    width: 65%;
+}
+
+.protein {
+    width: 100%;
+}
+
+/* end of info section */
+
+/* start of menu-controls section */
+
+#menu-controls {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    width: 100%;
+}
+
+#search {
+    box-sizing: border-box;
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 10px;
+}
+
+#organization-row {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    width: 100%;
+}
+
+#filter {
+    display: flex;
+    flex: 1;
+    min-width: 0;
+    gap: 5px;
+    overflow-x: auto;
+}
+
+.filter-tab {
+    flex-shrink: 0;
+    white-space: nowrap;
+    padding: 5px 10px;
+    border: 1px solid #CCC;
+    border-radius: 15px;
+    background: #EEE;
+}
+
+#sort {
+    flex-shrink: 0;
+    padding: 5px;
+}
+
+/* end of menu-controls section */
+
+/* start of menu section */
+
+/* end of menu section */
+
+/* start of for-navbar section */
+
+#for-navbar {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    z-index: 1000;
+    background-color: #FFF;
+    border-top: 1px solid #CCC;
+}
+
+/* end of for-navbar section */

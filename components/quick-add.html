@@ -1,0 +1,219 @@
+<!-- all CSS selectors are prefixed with #quick-add to reduce collisions with other styles -->
+<style>
+    body {
+        font-family: "Inter", sans-serif;
+    }
+
+    /* beginning of macro mode styling */
+
+    #quick-add, #quick-add * {
+        box-sizing: border-box;
+    }
+
+    #quick-add {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #quick-add #macro-panel[hidden] {
+        display: none;
+    }
+
+    #quick-add button, #quick-add input {
+        font: inherit;
+        min-width: 0;
+    }
+
+    #quick-add button {
+        touch-action: manipulation;
+        min-height: 45px;
+        padding: 10px 5px;
+        border: none;
+        border-radius: 10px;
+        background: transparent;
+        color: #666;
+    }
+
+    #quick-add button:active {
+        background: white;
+        color: #111;
+    }
+
+    #quick-add #mode-tabs-row, #quick-add #meal-tabs-row {
+        display: grid;
+        gap: 0;
+        padding: 5px;
+        border-radius: 10px;
+        background: #EEE;
+    }
+
+    #quick-add #mode-tabs-row {
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+    }
+
+    #quick-add #meal-tabs-row {
+        grid-template-columns: repeat(4, minmax(0, 1fr));
+    }
+
+    #quick-add #macro-panel {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    #quick-add .meal-tabs {
+        font-size: 0.875rem;
+    }
+
+    #quick-add #macro-fields-grid {
+        display: grid;
+        grid-template-columns: repeat(2, minmax(0, 1fr));
+        gap: 10px;
+    }
+
+    #quick-add label {
+        display: flex;
+        flex-direction: column;
+        gap: 5px;
+    }
+
+    #quick-add input {
+        width: 100%;
+        min-height: 45px;
+        padding: 10px;
+        border: 1px solid #CCC;
+        border-radius: 10px;
+        font-size: 15px;
+    }
+
+    #quick-add #quick-add-save-btn {
+        width: 100%;
+        min-height: 45px;
+        padding: 10px;
+        border: none;
+        border-radius: 10px;
+        background: #333;
+        color: white;
+        font: inherit;
+        font-weight: 600;
+        touch-action: manipulation;
+    }
+
+    /* end of macro mode styling */
+
+    /* beginning of exercise mode styling */
+
+    #quick-add #exercise-panel[hidden] {
+        display: none;
+    }
+
+    /* end of exercise mode styling */
+</style>
+
+<section id="quick-add">
+    <div id="mode-tabs-row">
+        <button id="exercise-tab" type="button">Exercise</button>
+        <button id="macro-tab" type="button">Macro</button>
+    </div>
+
+    <div id="macro-panel">
+        <div id="meal-tabs-row">
+            <button id="breakfast-tab" class="meal-tabs" type="button">Breakfast</button>
+            <button id="lunch-tab" class="meal-tabs" type="button">Lunch</button>
+            <button id="dinner-tab" class="meal-tabs" type="button">Dinner</button>
+            <button id="snack-tab" class="meal-tabs" type="button">Snack</button>
+        </div>
+
+        <div id="macro-fields-grid">
+            <label class="macro-fields fields">
+                Calories
+                <input id="calories-field" type="number" step="any" min="0"/>
+            </label>
+            
+            <label class="macro-fields fields">
+                Fat (g)
+                <input id="fat-field" type="number" step="any" min="0"/>
+            </label>
+            
+
+            <label class="macro-fields fields">
+                Carbs (g)
+                <input id="carbs-field" type="number" step="any" min="0"/>
+            </label>
+
+            <label class="macro-fields fields">
+                Protein (g)
+                <input id="protein-field" type="number" step="any" min="0"/>
+            </label>
+        </div>
+
+        <label class="fields">
+            Name
+            <input id="food-name"/>
+        </label>
+    </div>
+
+    <div id="exercise-panel" hidden>Exercise Panel</div>
+
+    <button id="quick-add-save-btn" type="button">Save</button>
+</section>
+
+<script>
+    // wrap each component's script in its own scope to avoid variable collisions when loading it
+    (() => {
+        // default mode is macro
+        let currentMode = "macro";
+        const macroPanel = document.getElementById("macro-panel");
+        const exercisePanel = document.getElementById("exercise-panel");
+
+        // defaults
+        document.getElementById("macro-tab").style.backgroundColor = "white";
+        document.getElementById("breakfast-tab").style.backgroundColor = "white";
+        
+        // attach the listener to the component
+        document.getElementById("quick-add").addEventListener("click", (e) => {
+            const tab = e.target.closest("#mode-tabs-row button, #meal-tabs-row button");
+
+            // when a tab is clicked
+            if (tab) {
+                // changes background color of tabs
+                tab.parentElement.querySelectorAll("button").forEach((button) => {
+                    button.style.backgroundColor = "transparent";
+                });
+
+                tab.style.backgroundColor = "white";
+
+                // checks whether the mode has changed between macro and exercise
+                if (tab.parentElement.id == "mode-tabs-row") {
+                    if (tab.id == "exercise-tab") {
+                        currentMode = "exercise";
+                        exercisePanel.hidden = false;
+                        macroPanel.hidden = true;
+                    } else {
+                        currentMode = "macro";
+                        macroPanel.hidden = false;
+                        exercisePanel.hidden = true;
+                    }
+                }
+            }
+
+            // when the save button is clicked
+            if (e.target.closest("#quick-add #quick-add-save-btn")) {
+                if (currentMode == "macro") {
+                    saveMacro();
+                } else {
+                    saveExercise();
+                }
+            }
+        });
+
+        function saveMacro() {
+            console.log("saveMacro()");
+        }
+
+        function saveExercise() {
+            console.log("saveExercise()");
+        }
+    })();
+</script>

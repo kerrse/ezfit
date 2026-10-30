@@ -119,10 +119,10 @@
 
     <div id="macro-panel">
         <div id="meal-tabs-row">
-            <button id="breakfast-tab" class="meal-tabs" type="button">Breakfast</button>
-            <button id="lunch-tab" class="meal-tabs" type="button">Lunch</button>
-            <button id="dinner-tab" class="meal-tabs" type="button">Dinner</button>
-            <button id="snack-tab" class="meal-tabs" type="button">Snack</button>
+            <button name="breakfast" id="breakfast-tab" class="meal-tabs" type="button">Breakfast</button>
+            <button name="lunch" id="lunch-tab" class="meal-tabs" type="button">Lunch</button>
+            <button name="dinner" id="dinner-tab" class="meal-tabs" type="button">Dinner</button>
+            <button name="snack" id="snack-tab" class="meal-tabs" type="button">Snack</button>
         </div>
 
         <div id="macro-fields-grid">
@@ -135,7 +135,6 @@
                 Fat (g)
                 <input id="fat-field" type="number" step="any" min="0"/>
             </label>
-            
 
             <label class="macro-fields fields">
                 Carbs (g)
@@ -162,15 +161,15 @@
 <script>
     // wrap each component's script in its own scope to avoid variable collisions when loading it
     (() => {
-        // default mode is macro
+        // defaults
         let currentMode = "macro";
+        let currentMeal = "breakfast";
+        document.getElementById("macro-tab").style.backgroundColor = "white";
+        document.querySelector("[name='breakfast']").style.backgroundColor = "white";
+
         const macroPanel = document.getElementById("macro-panel");
         const exercisePanel = document.getElementById("exercise-panel");
 
-        // defaults
-        document.getElementById("macro-tab").style.backgroundColor = "white";
-        document.getElementById("breakfast-tab").style.backgroundColor = "white";
-        
         // attach the listener to the component
         document.getElementById("quick-add").addEventListener("click", (e) => {
             const tab = e.target.closest("#mode-tabs-row button, #meal-tabs-row button");
@@ -196,6 +195,11 @@
                         exercisePanel.hidden = true;
                     }
                 }
+
+                // checks which meal has been selected
+                if (tab.parentElement.id == "meal-tabs-row") {
+                    currentMeal = tab.name;
+                }
             }
 
             // when the save button is clicked
@@ -210,6 +214,27 @@
 
         function saveMacro() {
             console.log("saveMacro()");
+            console.log(`Selected meal: ${currentMeal}`);
+
+            const entry = {
+                calories: Number(document.getElementById("calories-field").value),
+                fat: Number(document.getElementById("fat-field").value),
+                carbs: Number(document.getElementById("carbs-field").value),
+                protein: Number(document.getElementById("protein-field").value),
+                
+                name: document.getElementById("food-name").value.trim()
+            };
+
+            // from db.js
+            addMacroEntry(currentMeal, entry);
+
+            // close dialog upon saving
+            document.getElementById("quick-add-dialog").close();
+
+            // reset values
+            macroPanel.querySelectorAll("input").forEach((input) => {
+                input.value = "";
+            });
         }
 
         function saveExercise() {

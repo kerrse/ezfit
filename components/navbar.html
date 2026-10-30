@@ -54,7 +54,7 @@
     </div>
 
     <button id="quick-add-btn" type="button">
-        &plus;
+        <span>&plus;</span>
     </button>
 
     <div id="nutrition-group">
@@ -68,9 +68,9 @@
 <script>
     // wrap each component's script in its own scope to avoid variable collisions when loading it
     (() => {
-        const btn = document.getElementById("quick-add-btn");
-        btn.addEventListener("click", () => {
-        
+        const quickAddBtn = document.getElementById("quick-add-btn");
+        quickAddBtn.addEventListener("click", () => {
+            document.getElementById("quick-add-dialog").showModal();
         });
     })();
 </script>

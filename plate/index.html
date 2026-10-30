@@ -7,6 +7,7 @@
 
     <link rel="stylesheet" href="index.css"/>
     <script src="index.js" defer></script>
+    <script src="/database/db.js" defer></script>
 </head>
 <body>
     <div id="top">
@@ -79,9 +80,20 @@
 
     <div id="menu"></div>
 
+    <dialog id="quick-add-dialog">
+        <form method="dialog">
+            <button id="close-dialog-btn">
+                <span>&times;</span>
+            </button>
+        </form>
+
+        <div id="for-quick-add"></div>
+    </dialog>
+
     <div id="for-navbar"></div>
 
     <script>
+        loadComponent("/components/quick-add.html", document.getElementById("for-quick-add")).catch(console.error);
         loadComponent("/components/navbar.html", document.getElementById("for-navbar")).catch(console.error);
 
         // load component's HTML and CSS

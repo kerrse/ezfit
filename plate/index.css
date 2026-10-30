@@ -171,6 +171,46 @@ body {
 
 /* end of menu section */
 
+/* start of for-quick-add section */
+
+#quick-add-dialog {
+    box-sizing: border-box;
+    width: min(90vw, 450px);
+    max-height: 90dvh;
+    padding: 20px;
+    border: none;
+    border-radius: 15px;
+    overflow-y: auto;
+    background: white;
+}
+
+#quick-add-dialog::backdrop {
+    background: rgb(0 0 0 / 50%);
+}
+
+#quick-add-dialog > form {
+    display: flex;
+    justify-content: flex-end;
+    margin: 0 0 10px;
+}
+
+#close-dialog-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+/* end of for-quick-add section */
+
 /* start of for-navbar section */
 
 #for-navbar {

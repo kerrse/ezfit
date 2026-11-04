@@ -2,7 +2,7 @@
 const openRequest = indexedDB.open("database");
 
 openRequest.onerror = (e) => {
-    // error
+    console.error(`Error: ${openRequest.error}`);
 }
 
 // first time creating the database
@@ -14,6 +14,8 @@ openRequest.onupgradeneeded = (e) => {
     const firstDay = createDay(startDate);
 
     store.put(firstDay);
+
+    database.createObjectStore("nutrition-programs", {keyPath: "name"});
 }
 
 // shared database connection
@@ -23,6 +25,30 @@ let db;
 openRequest.onsuccess = (e) => {
     // e is the event, target is the request that fired it, result is the opened database connection
     db = e.target.result;
+
+    // get the current date when the database connection opens
+    const todayDate = Temporal.Now.plainDateISO().toString();
+
+    // start a read-only transaction to access the calendar store
+    const transaction = db.transaction("calendar", "readonly");
+    const calendarStore = transaction.objectStore("calendar");
+
+    // look up today's record using its date as the key
+    const getTodayRecordRequest = calendarStore.get(todayDate);
+
+    getTodayRecordRequest.onsuccess = () => {
+        const todayRecord = getTodayRecordRequest.result;
+
+        // create today's record if it doesn't exist already and save it
+        if (todayRecord == undefined) {
+            const newDayRecord = createDay(todayDate);
+            saveDay(newDayRecord);
+        }
+    }
+
+    transaction.oncomplete = () => {
+        loadNutritionProgram();
+    }
 }
 
 // creates a new empty day record
@@ -79,6 +105,9 @@ function getDay(date) {
     getDayRecordRequest.onsuccess = () => {
         const retrievedDay = getDayRecordRequest.result;
         console.log(retrievedDay);
+
+        // update the progress bars after loading the requested day
+        updateProgressBars(retrievedDay);
     }
 }
 
@@ -121,9 +150,59 @@ function addMacroEntry(meal, entry) {
 
     transaction.oncomplete = () => {
         console.log(`Entry saved to ${meal} for ${todayDate}.`);
+        getDay(todayDate);
     }
 
     transaction.onabort = () => {
         console.error(`Could not save entry: ${transaction.error}`);
     }
+}
+
+function loadNutritionProgram() {
+    const transaction = db.transaction("nutrition-programs", "readonly");
+    const nutritionProgramStore = transaction.objectStore("nutrition-programs");
+    const getNutritionProgramRequest = nutritionProgramStore.get("default");
+
+    getNutritionProgramRequest.onsuccess = () => {
+        const savedNutritionProgram = getNutritionProgramRequest.result;
+
+        if (savedNutritionProgram != null) {
+            showSavedNutritionProgram(savedNutritionProgram.value);
+        }
+
+        // load today's totals to draw the progress bars when the app opens
+        const todayDate = Temporal.Now.plainDateISO().toString();
+        getDay(todayDate);
+    }
+}
+
+function saveNutritionProgram(program, previousProgramName, onSaveFinished) {
+    if (!db) {
+        onSaveFinished(false);
+        return;
+    }
+
+    const transaction = db.transaction("nutrition-programs", "readwrite");
+    const nutritionProgramStore = transaction.objectStore("nutrition-programs");
+
+    transaction.oncomplete = () => {
+        onSaveFinished(true);
+    }
+
+    transaction.onabort = () => {
+        onSaveFinished(false);
+    }
+
+    // create a new record and delete an old record if a nutrition program name is changed
+    if (previousProgramName == program.name) {
+        nutritionProgramStore.put(program);
+    } else {
+        nutritionProgramStore.add(program);
+
+        if (previousProgramName != null) {
+            nutritionProgramStore.delete(previousProgramName);
+        }
+    }
+
+    nutritionProgramStore.put(program);
 }

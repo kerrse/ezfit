@@ -39,6 +39,131 @@ body {
 
 /* end of top section */
 
+/* start of program-dialog section */
+
+#edit-program-btn {
+    padding: 0;
+    border: 0;
+    background: transparent;
+    color: inherit;
+    font: inherit;
+    cursor: pointer;
+}
+
+#program-dialog {
+    box-sizing: border-box;
+    width: min(90vw, 420px);
+    max-height: 90dvh;
+    padding: 20px;
+    border: 0;
+    border-radius: 15px;
+    background: #FFF;
+    color: #111;
+    color-scheme: light;
+}
+
+#program-dialog::backdrop {
+    background: rgb(0 0 0 / 50%);
+}
+
+#program-form {
+    display: grid;
+    gap: 15px;
+}
+
+#program-dialog #program-dialog-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+#program-dialog-title {
+    margin: 0;
+}
+
+#close-program-dialog-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 25px;
+    height: 25px;
+    padding: 0;
+    border: none;
+    border-radius: 50%;
+    background: red;
+    color: white;
+    font-size: 1.25rem;
+    line-height: 1;
+}
+
+#program-dialog .program-field {
+    display: grid;
+    gap: 5px;
+}
+
+#program-dialog #program-macro-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 10px;
+}
+
+#program-dialog .program-macro {
+    display: grid;
+    justify-items: center;
+    gap: 10px;
+}
+
+#program-dialog input:not([type="range"]) {
+    box-sizing: border-box;
+    width: 100%;
+    min-width: 0;
+    padding: 10px;
+    border: 1px solid #CCC;
+    border-radius: 10px;
+    background: #F5F5F5;
+    color: #111;
+    font: inherit;
+}
+
+#program-dialog input[type="range"] {
+    writing-mode: vertical-lr;
+    direction: rtl;
+    width: 30px;
+    height: 150px;
+}
+
+#fat-goal-slider {
+    accent-color: black;
+}
+
+#carbs-goal-slider {
+    accent-color: black;
+}
+
+#protein-goal-slider {
+    accent-color: black;
+}
+
+#program-save-btn {
+    min-height: 45px;
+    border: 0;
+    border-radius: 10px;
+    background: #333;
+    color: white;
+    font: inherit;
+    cursor: pointer;
+}
+
+#program-save-status {
+    margin: 0;
+}
+
+#program-save-status:empty {
+    display: none;
+}
+
+/* end of program-dialog section */
+
 /* start of info section */
 
 #info {
@@ -78,9 +203,15 @@ body {
 
 .progress-row {
     display: grid;
-    grid-template-columns: minmax(0, 1fr) auto;
+    grid-template-columns: minmax(0, 1fr) 5ch;
     align-items: center;
     gap: 10px;
+}
+
+.progress-row > span {
+    text-align: right;
+    white-space: nowrap;
+    font-variant-numeric: tabular-nums;
 }
 
 .progress-bar {

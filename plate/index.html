@@ -16,7 +16,54 @@
             <span id="date"></span>
         </div>
 
-        <h1 id="program-name">EZ Fit</h1>
+        <h1 id="program-name">
+            <button id="edit-program-btn" type="button">EZ Fit</button>
+        </h1>
+
+        <dialog id="program-dialog">
+            <form id="program-form">
+                <div id="program-dialog-header">
+                    <h2 id="program-dialog-title">Edit Program</h2>
+                    <button id="close-program-dialog-btn" type="button">&times;</button>
+                </div>
+
+                <label class="program-field">
+                    <span>Program Name</span>
+                    <input id="program-name-input" type="text" required/>
+                </label>
+
+                <label class="program-field">
+                    <span>Calorie Goal</span>
+                    <input id="calorie-goal-input" type="number" min="0" step="any" inputmode="decimal" required/>
+                </label>
+
+                <div id="program-macro-grid">
+                    <div class="program-macro">
+                        <label for="fat-goal-input">Fat (g)</label>
+                        <input id="fat-goal-input" type="number" min="0" step="any" inputmode="decimal" required/>
+                        <output id="fat-goal-percentage">0%</output>
+                        <input id="fat-goal-slider" type="range" min="0" max="100" step="any"/>
+                    </div>
+
+                    <div class="program-macro">
+                        <label for="carbs-goal-input">Carbs (g)</label>
+                        <input id="carbs-goal-input" type="number" min="0" step="any" inputmode="decimal" required/>
+                        <output id="carbs-goal-percentage">0%</output>
+                        <input id="carbs-goal-slider" type="range" min="0" max="100" step="any"/>
+                    </div>
+
+                    <div class="program-macro">
+                        <label for="protein-goal-input">Protein (g)</label>
+                        <input id="protein-goal-input" type="number" min="0" step="any" inputmode="decimal" required/>
+                        <output id="protein-goal-percentage">0%</output>
+                        <input id="protein-goal-slider" type="range" min="0" max="100" step="any"/>
+                    </div>
+                </div>
+
+                <button id="program-save-btn" type="submit">Save</button>
+                <p id="program-save-status"></p>
+            </form>
+        </dialog>
 
         <div class="stack right">
             <span id="swap-btn">&plus;</span>
@@ -35,7 +82,7 @@
                     <div class="progress-color fat"></div>
                     <span>Fat</span>
                 </div>
-                <span>g</span>
+                <span id="fat-total">0 g</span>
             </div>
 
             <div class="progress-row">
@@ -43,7 +90,7 @@
                     <div class="progress-color carbs"></div>
                     <span>Carbs</span>
                 </div>
-                <span>g</span>
+                <span id="carbs-total">0 g</span>
             </div>
 
             <div class="progress-row">
@@ -51,7 +98,7 @@
                     <div class="progress-color protein"></div>
                     <span>Protein</span>
                 </div>
-                <span>g</span>
+                <span id="protein-total">0 g</span>
             </div>
         </div>
     </div>

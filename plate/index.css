@@ -1,6 +1,8 @@
 body {
     font-family: "Inter", sans-serif;
     padding-bottom: 90px; /* reserve space for the navbar */
+    background: #F4F4F4;
+    color: #171717;
 }
 
 /* start of top section */
@@ -10,7 +12,21 @@ body {
     grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
     align-items: center;
     gap: 5px;
-    padding: 10px 0;
+    padding: 10px;
+    margin-bottom: 10px;
+    background: #222;
+    color: #FFF;
+}
+
+#top, #info, #menu-controls {
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+#info, #menu-controls {
+    background: #FFF;
+    border: 1px solid #E4E4E4;
+    box-shadow: 0 1px 5px rgb(0 0 0 / 5%);
 }
 
 .stack {
@@ -37,7 +53,75 @@ body {
     line-height: 1.15;
 }
 
-/* end of top section */
+#day-number {
+    font-size: 1.25rem;
+    font-weight: 700;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+}
+
+#date, #swap-btn-label {
+    color: #D4D4D4;
+}
+
+#swap-btn {
+    align-self: flex-end;
+    display: grid;
+    place-items: center;
+    width: 30px;
+    height: 30px;
+    padding: 0;
+    border: 0;
+    border-radius: 50%;
+    background: #444;
+    color: #86EFAC;
+    cursor: pointer;
+}
+
+/* nutrition card */
+
+#info {
+    margin-bottom: 10px;
+    padding: 10px;
+}
+
+#info .circle {
+    background: #F7F7F7;
+    border: 1px solid #E4E4E4;
+    font-weight: 700;
+}
+
+#info .progress-bar {
+    background: #EEE;
+}
+
+#info .progress-color {
+    background: #BDBDBD;
+}
+
+#info .progress-row > span {
+    font-weight: 600;
+}
+
+/* search and filters card */
+
+#menu-controls {
+    padding: 10px;
+}
+
+#search {
+    background: #F7F7F7;
+    border-color: #E0E0E0;
+    border-radius: 10px;
+    color: inherit;
+}
+
+.filter-tab, #sort {
+    background: #F4F4F4;
+    border: 1px solid #E0E0E0;
+    border-radius: 1000px;
+    color: inherit;
+}
 
 /* start of program-dialog section */
 
@@ -162,8 +246,6 @@ body {
     display: none;
 }
 
-/* end of program-dialog section */
-
 /* start of info section */
 
 #info {
@@ -248,8 +330,6 @@ body {
     width: 100%;
 }
 
-/* end of info section */
-
 /* start of menu-controls section */
 
 #menu-controls {
@@ -296,11 +376,7 @@ body {
     padding: 5px;
 }
 
-/* end of menu-controls section */
-
 /* start of menu section */
-
-/* end of menu section */
 
 /* start of for-quick-add section */
 
@@ -340,8 +416,6 @@ body {
     line-height: 1;
 }
 
-/* end of for-quick-add section */
-
 /* start of for-navbar section */
 
 #for-navbar {
@@ -354,5 +428,3 @@ body {
     background-color: #FFF;
     border-top: 1px solid #CCC;
 }
-
-/* end of for-navbar section */

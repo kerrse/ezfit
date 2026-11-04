@@ -14,8 +14,10 @@ dateEl.innerText = new Intl.DateTimeFormat("en-US", {
 swapBtnEl.addEventListener("click", function() {
     if (swapBtnLabelEl.innerText == "Consumed") {
         swapBtnLabelEl.innerText = "Remaining";
+        swapBtnEl.style.color = "#FCA5A5";
     } else {
         swapBtnLabelEl.innerText = "Consumed";
+        swapBtnEl.style.color = "#86EFAC";
     }
 });
 

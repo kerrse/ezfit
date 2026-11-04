@@ -85,22 +85,95 @@ body {
     padding: 10px;
 }
 
-#info .circle {
+#calorie-ring {
+    --ring-fill: 0%;
+
+    position: relative;
+    border: none;
+
+    background: conic-gradient(
+        #86EFAC 0% var(--ring-fill),
+        #86EFAC66 var(--ring-fill) 100%
+    );
+}
+
+#calorie-ring::before {
+    content: "";
+    position: absolute;
+    inset: 5px;
+    border-radius: 50%;
     background: #F7F7F7;
-    border: 1px solid #E4E4E4;
+}
+
+#calorie-ring-text {
+    position: relative;
+    display: grid;
+    justify-items: center;
+    line-height: 1;
+}
+
+#calorie-total {
+    font-size: clamp(1rem, 5vw, 1.5rem);
     font-weight: 700;
+    font-variant-numeric: tabular-nums;
 }
 
 #info .progress-bar {
     background: #EEE;
 }
 
-#info .progress-color {
-    background: #BDBDBD;
+#info .progress-bar:has(.fat) {
+    background: #93C5FD33;
+}
+
+#info .progress-bar:has(.carbs) {
+    background: #FDE68A33;
+}
+
+#info .progress-bar:has(.protein) {
+    background: #FCA5A533;
+}
+
+#info .progress-bar > span {
+    font-style: italic;
+    font-size: 0.85rem;
+    opacity: 0.5;
+}
+
+#info .progress-color.fat {
+    background: #93C5FD;
+}
+
+#info .progress-color.carbs {
+    background: #FDE68A;
+}
+
+#info .progress-color.protein {
+    background: #FCA5A5;
 }
 
 #info .progress-row > span {
     font-weight: 600;
+}
+
+/* consumed fills in from the left */
+#info .progress-color {
+    left: 0;
+}
+
+/* remaining fills in from the right */
+#info[data-mode="Remaining"] .progress-color {
+    left: auto;
+    right: 0;
+}
+
+#info[data-mode="Remaining"] #calorie-ring {
+    --ring-start: calc(100% - var(--ring-fill));
+
+    background: conic-gradient(
+        #86EFAC33 0% var(--ring-start),
+        #86EFAC var(--ring-start) 100%
+    );
 }
 
 /* search and filters card */
@@ -316,18 +389,6 @@ body {
     align-items: center;
     height: 100%;
     padding-left: 10px;
-}
-
-.fat {
-    width: 40%;
-}
-
-.carbs {
-    width: 65%;
-}
-
-.protein {
-    width: 100%;
 }
 
 /* start of menu-controls section */

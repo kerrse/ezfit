@@ -19,6 +19,8 @@ swapBtnEl.addEventListener("click", function() {
         swapBtnLabelEl.innerText = "Consumed";
         swapBtnEl.style.color = "#86EFAC";
     }
+
+    updateProgressBars(displayedDay);
 });
 
 const fatProgressBar = document.getElementsByClassName("fat")[0];
@@ -29,12 +31,25 @@ const fatTotal = document.getElementById("fat-total");
 const carbsTotal = document.getElementById("carbs-total");
 const proteinTotal = document.getElementById("protein-total");
 
+const calorieRing = document.getElementById("calorie-ring");
+const calorieTotal = document.getElementById("calorie-total");
+
+// retrievedDay that can be passed to the event listener attached to swapBtnEl
+let displayedDay;
+
 function updateProgressBars(retrievedDay) {
+    displayedDay = retrievedDay;
+
+    // copy the toggle label to #info so CSS can switch the ring and bars between modes
+    document.getElementById("info").dataset.mode = swapBtnLabelEl.innerText;
+
     if (retrievedDay === undefined) {
+        calorieRing.style.setProperty("--ring-fill", "0%");
         fatProgressBar.style.width = "0%";
         carbsProgressBar.style.width = "0%";
         proteinProgressBar.style.width = "0%";
 
+        calorieTotal.textContent = "0";
         fatTotal.textContent = "0 g";
         carbsTotal.textContent = "0 g";
         proteinTotal.textContent = "0 g";
@@ -42,13 +57,28 @@ function updateProgressBars(retrievedDay) {
         return;
     }
 
-    const macroInfo = retrievedDay.totals;
+    let macroInfo = retrievedDay.totals;
     const macroGoals = defaultProgram.goals;
     
+    if (swapBtnLabelEl.innerText == "Remaining") {
+        macroInfo = {
+            calories: Math.max(macroGoals.calories - macroInfo.calories, 0),
+            fat: Math.max(macroGoals.fat - macroInfo.fat, 0),
+            carbs: Math.max(macroGoals.carbs - macroInfo.carbs, 0),
+            protein: Math.max(macroGoals.protein - macroInfo.protein, 0)
+        };
+    }
+
+    calorieRing.style.setProperty(
+        "--ring-fill",
+        getProgressWidth(macroInfo.calories, macroGoals.calories)
+    );
+
     fatProgressBar.style.width = getProgressWidth(macroInfo.fat, macroGoals.fat);
     carbsProgressBar.style.width = getProgressWidth(macroInfo.carbs, macroGoals.carbs);
     proteinProgressBar.style.width = getProgressWidth(macroInfo.protein, macroGoals.protein);
 
+    calorieTotal.textContent = macroInfo.calories;
     fatTotal.textContent = `${Number(macroInfo.fat.toFixed(2))} g`;
     carbsTotal.textContent = `${Number(macroInfo.carbs.toFixed(2))} g`;
     proteinTotal.textContent = `${Number(macroInfo.protein.toFixed(2))} g`;

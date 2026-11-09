@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+    <title>EZ Fit</title>
+
+    <link rel="stylesheet" href="index.css"/>
+    <script src="index.js" defer></script>
+</head>
+<body>
+    <div id="list-controls">
+        <input id="search" type="search" placeholder="Search..."/>
+
+        <div id="organization-row">
+            <div id="filter">
+                <button class="filter-tab" type="button">Favorite</button>
+                <button class="filter-tab" type="button">Fruit</button>
+                <button class="filter-tab" type="button">Meat</button>
+                <button class="filter-tab" type="button">Sauce</button>
+                <button class="filter-tab" type="button">Vegetable</button>
+                <button class="filter-tab" type="button">Gluten-Free</button>
+                <button class="filter-tab" type="button">Dessert</button>
+                <button class="filter-tab" type="button">Nut-Free</button>
+                <button class="filter-tab" type="button">Dairy</button>
+                <button class="filter-tab" type="button">Vegetarian</button>
+                <button class="filter-tab" type="button">Vegan</button>
+                <button class="filter-tab" type="button">Dairy-Free</button>
+                <button class="filter-tab" type="button">Legume</button>
+            </div>
+
+            <select id="sort">
+                <option value="default" selected>Sort By</option>
+                <option value="calories">Calories</option>
+                <option value="fat">Fat</option>
+                <option value="carbs">Carbs</option>
+                <option value="protein">Protein</option>
+                <option value="name">A-Z</option>
+            </select>
+        </div>
+    </div>
+
+    <div id="list-container">
+        <div id="food-container">
+            <h2 id="food-container-title">Food List</h2>
+
+            <div id="food-list">
+                <div class="food-item">
+                    <div class="food-item-name">Example 1</div>
+                    <div class="food-item-tag">
+                        <span>Tag 1</span>
+                        <span>Tag 2</span>
+                    </div>
+                    <div class="food-item-nutrition-info">
+                        <span class="food-item-calories"># Calories</span>
+                        <span class="food-item-fat">#g Fat</span>
+                        <span class="food-item-carbs">#g Carbs</span>
+                        <span class="food-item-protein">#g Protein</span>
+                    </div>
+                </div>
+                <div class="food-item">
+                    <div class="food-item-name">Example 2</div>
+                    <div class="food-item-tag">
+                        <span>Tag 1</span>
+                    </div>
+                    <div class="food-item-nutrition-info">
+                        <span class="food-item-calories"># Calories</span>
+                        <span class="food-item-fat">#g Fat</span>
+                        <span class="food-item-carbs">#g Carbs</span>
+                        <span class="food-item-protein">#g Protein</span>
+                    </div>
+                </div>
+            </div>
+
+            <button id="add-food-btn" type="button">Add Food</button>
+        </div>
+        <div id="recipe-container" hidden>
+            <h2 id="recipe-container-title">Recipe List</h2>
+
+            <div id="recipe-list">No recipes yet.</div>
+
+            <button id="create-recipe-btn" type="button">Create Recipe</button>
+        </div>
+        
+        <div id="navigation-ellipsis"></div>
+    </div>
+
+    <dialog id="quick-add-dialog">
+        <form method="dialog">
+            <button id="close-dialog-btn">
+                <span>&times;</span>
+            </button>
+        </form>
+
+        <div id="for-quick-add"></div>
+    </dialog>
+
+    <div id="for-navbar"></div>
+
+    <script>
+        loadComponent("/components/quick-add.html", document.getElementById("for-quick-add")).catch(console.error);
+        loadComponent("/components/navbar.html", document.getElementById("for-navbar")).catch(console.error);
+
+        // load component's HTML and CSS
+        // container is the element that the component is inserted in
+        async function loadComponent(path, container) {
+            const response = await fetch(path);
+
+            if (!response.ok) {
+                throw new Error(`Could not load component: ${path}`);
+            }
+
+            const html = await response.text();
+            container.innerHTML = html;
+            loadComponentScripts(container);
+
+            console.log(`Component loaded successfully: ${path}`);
+        }
+
+        // load component's JavaScript
+        // container is passed from loadComponent()
+        function loadComponentScripts(container) {
+            // inactiveScript is the script element from the loaded component
+            container.querySelectorAll("script").forEach(function swapScripts(inactiveScript) {
+                // create a new script element and copy the code from inactiveScript
+                const newScript = document.createElement("script");
+                newScript.textContent = inactiveScript.textContent;
+                // replacing executes the JavaScript
+                inactiveScript.replaceWith(newScript);
+            });
+        }
+    </script>
+</body>
+</html>

@@ -430,6 +430,12 @@ body {
     border: 1px solid #CCC;
     border-radius: 15px;
     background: #EEE;
+    overflow-y: hidden;
+    scrollbar-width: none;
+}
+
+#filter::-webkit-scrollbar {
+    display: none;
 }
 
 #sort {

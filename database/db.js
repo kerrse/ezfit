@@ -10,7 +10,7 @@ openRequest.onupgradeneeded = (e) => {
     const database = e.target.result;
     const store = database.createObjectStore("calendar", {keyPath: "date"});
 
-    const startDate = Temporal.Now.plainDateISO().toString();
+    const startDate = getTodayDate();
     const firstDay = createDay(startDate);
 
     store.put(firstDay);
@@ -27,7 +27,7 @@ openRequest.onsuccess = (e) => {
     db = e.target.result;
 
     // get the current date when the database connection opens
-    const todayDate = Temporal.Now.plainDateISO().toString();
+    const todayDate = getTodayDate();
 
     // start a read-only transaction to access the calendar store
     const transaction = db.transaction("calendar", "readonly");
@@ -118,7 +118,7 @@ function addMacroEntry(meal, entry) {
         return;
     }
 
-    const todayDate = Temporal.Now.plainDateISO().toString();
+    const todayDate = getTodayDate();
 
     const transaction = db.transaction("calendar", "readwrite");
     const store = transaction.objectStore("calendar");
@@ -171,7 +171,7 @@ function loadNutritionProgram() {
         }
 
         // load today's totals to draw the progress bars when the app opens
-        const todayDate = Temporal.Now.plainDateISO().toString();
+        const todayDate = getTodayDate();
         getDay(todayDate);
     }
 }
@@ -205,4 +205,14 @@ function saveNutritionProgram(program, previousProgramName, onSaveFinished) {
     }
 
     nutritionProgramStore.put(program);
+}
+
+// fallback due to lack of Temporal support
+function getTodayDate() {
+    const today = new Date();
+    const year = today.getFullYear();
+    const month = String(today.getMonth() + 1).padStart(2, "0");
+    const day = String(today.getDate()).padStart(2, "0");
+
+    return `${year}-${month}-${day}`;
 }

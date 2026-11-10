@@ -7,7 +7,7 @@
 
     <link rel="stylesheet" href="index.css"/>
     <script src="index.js" defer></script>
-    <script src="/database/db.js" defer></script>
+    <script src="../database/db.js" defer></script>
 </head>
 <body>
     <div id="top">
@@ -159,8 +159,8 @@
     <div id="for-navbar"></div>
 
     <script>
-        loadComponent("/components/quick-add.html", document.getElementById("for-quick-add")).catch(console.error);
-        loadComponent("/components/navbar.html", document.getElementById("for-navbar")).catch(console.error);
+        loadComponent("../components/quick-add.html", document.getElementById("for-quick-add")).catch(console.error);
+        loadComponent("../components/navbar.html", document.getElementById("for-navbar")).catch(console.error);
 
         // load component's HTML and CSS
         // container is the element that the component is inserted in

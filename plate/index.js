@@ -288,7 +288,7 @@ programForm.addEventListener("submit", (e) => {
         if (saveSucceeded) {
             showSavedNutritionProgram(program);
 
-            const todayDate = Temporal.Now.plainDateISO().toString();
+            const todayDate = getTodayDate();
             getDay(todayDate);
 
             programDialog.close();
